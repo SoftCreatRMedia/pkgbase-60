@@ -3,7 +3,6 @@ name: PHP
 on:
   push:
     branches:
-      - "5.5"
       - main
     tags-ignore:
       - "**"
