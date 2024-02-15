@@ -3,7 +3,6 @@ name: Code Style
 on:
   push:
     branches:
-      - "5.5"
       - main
     paths:
       - "**.php"

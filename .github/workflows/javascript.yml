@@ -3,7 +3,6 @@ name: JavaScript
 on:
   push:
     branches:
-      - "5.5"
       - main
     paths:
       - "**.js"
