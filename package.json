@@ -10,6 +10,6 @@
     "tslib": "^2.6.2"
   },
   "dependencies": {
-    "@woltlab/d.ts": "https://github.com/WoltLab/d.ts.git#5f4f06de4b630a1f2044f5b3dcce50565f85ba60"
+    "@woltlab/d.ts": "https://github.com/WoltLab/d.ts.git#e44244767767e7fff348217df77cf0ecca074352"
   }
 }
