@@ -21,7 +21,7 @@ jobs:
           npx --yes wspackager@latest
       - name: Check file existence
         id: check_files
-        uses: andstor/file-existence-action@v2
+        uses: andstor/file-existence-action@v3
         with:
           files: "*.tar.gz"
       - name: On Build Failure
