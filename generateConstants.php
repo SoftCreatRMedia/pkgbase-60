@@ -1,11 +1,12 @@
 <?php
 
-if (!file_exists('option.xml')) {
+if (!\file_exists('option.xml')) {
     echo "option.xml not found.";
+
     exit(0);
 }
 
-$xmlString = file_get_contents('option.xml');
+$xmlString = \file_get_contents('option.xml');
 
 try {
     $xml = new SimpleXMLElement($xmlString);
@@ -19,19 +20,19 @@ $xml->registerXPathNamespace('ns', $namespaces['']);
 $constants = ["const WCF_N = 1;"];
 
 foreach ($xml->xpath('//ns:option') as $option) {
-    $name = strtoupper(str_replace(['.', ':'], '_', (string)$option['name']));
+    $name = \strtoupper(\str_replace(['.', ':'], '_', (string)$option['name']));
     $defaultValue = (string)$option->defaultvalue;
     $optionType = (string)$option->optiontype;
 
     if ($defaultValue === '') {
-        $constants[] = "const $name = '';";
+        $constants[] = "const {$name} = '';";
     } elseif ($optionType === 'boolean' || $optionType === 'integer') {
-        $constants[] = "const $name = " . (int)$defaultValue . ";";
+        $constants[] = "const {$name} = " . (int)$defaultValue . ";";
     } else {
-        $constants[] = "const $name = '$defaultValue';";
+        $constants[] = "const {$name} = '{$defaultValue}';";
     }
 }
 
-file_put_contents('constants.php', "<?php\n\n" . implode("\n", $constants) . "\n");
+\file_put_contents('constants.php', "<?php\n\n" . \implode("\n", $constants) . "\n");
 
 echo "constants.php has been generated successfully.";
