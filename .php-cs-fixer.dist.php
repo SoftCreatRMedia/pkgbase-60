@@ -1,9 +1,9 @@
 <?php
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('*/vendor/*')
-    ->exclude('node_modules')
     ->in(__DIR__)
-    ->notPath('lib/system/api');
+    ->notPath('lib/system/api')
+    ->notPath('vendor')
+    ->notPath('node_modules');
 
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)

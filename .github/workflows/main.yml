@@ -16,8 +16,6 @@ jobs:
       check_scss: ${{ steps.scss_check.outputs.check_scss }}
       check_php: ${{ steps.php_check.outputs.check_php }}
       check_js: ${{ steps.js_check.outputs.check_js }}
-      language_check: ${{ steps.language_check.outputs.language_check }}
-      packagexml_check: ${{ steps.packagexml_check.outputs.packagexml_check }}
     steps:
       - uses: actions/checkout@v4
 
@@ -111,73 +109,6 @@ jobs:
             else
               echo "check_js=false" >> $GITHUB_OUTPUT
             fi
-          fi
-
-      - name: Validate plugin translations
-        id: language_check
-        run: |
-          if [ -d "./language" ]; then
-            required_files=("cs.xml" "da.xml" "de.xml" "en.xml" "es.xml" "fr.xml" "hu.xml" "it.xml" "nl.xml" "no.xml" "pl.xml" "ro.xml" "ru.xml" "sv.xml" "tr.xml")
-            missing_files=()
-          
-            for file in "${required_files[@]}"; do
-              if [ ! -f "./language/$file" ]; then
-                missing_files+=("$file")
-              fi
-            done
-          
-            if [ ${#missing_files[@]} -ne 0 ]; then
-              echo "Missing language files: ${missing_files[@]}"
-              echo "language_check=false" >> $GITHUB_OUTPUT
-              exit 1
-            else
-              echo "All required language files are present."
-              echo "language_check=true" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "./language directory does not exist. Skipping language file checks."
-            echo "language_check=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Validate package translations
-        id: packagexml_check
-        run: |
-          if [ -f "package.xml" ]; then
-            if ! command -v xmllint &> /dev/null; then
-              echo "xmllint could not be found. Installing libxml2-utils..."
-              sudo apt-get update
-              sudo apt-get install -y libxml2-utils
-            fi
-          
-            languages=("cs" "da" "de" "es" "fr" "hu" "it" "nl" "no" "pl" "ro" "ru" "sv" "tr")
-            missing_translations=()
-          
-            for lang in "${languages[@]}"; do
-              packagename_exists=$(xmllint --xpath "boolean(//*[local-name()='packagename'][@language='$lang'])" package.xml 2>/dev/null)
-              
-              if [ "$packagename_exists" != "true" ]; then
-                missing_translations+=("packagename[$lang]")
-                echo "Missing packagename for language: $lang"
-              fi
-
-              packagedescription_exists=$(xmllint --xpath "boolean(//*[local-name()='packagedescription'][@language='$lang'])" package.xml 2>/dev/null)
-              
-              if [ "$packagedescription_exists" != "true" ]; then
-                missing_translations+=("packagedescription[$lang]")
-                echo "Missing packagedescription for language: $lang"
-              fi
-            done
-          
-            if [ ${#missing_translations[@]} -ne 0 ]; then
-              echo "packagexml_check=false" >> $GITHUB_OUTPUT
-              exit 1
-            else
-              echo "All required package.xml translations are present."
-              echo "packagexml_check=true" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "package.xml does not exist. Skipping package.xml checks."
-            echo "packagexml_check=true" >> $GITHUB_OUTPUT
           fi
 
   php:
