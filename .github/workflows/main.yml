@@ -246,13 +246,9 @@ jobs:
 
       - name: PHP Syntax Check
         run: |
-          files_dirs=$(find . -type d -name 'files*')
-          if [ -n "$files_dirs" ]; then
-            for dir in $files_dirs; do
-              echo "Checking PHP files in directory: $dir"
-              ! find "$dir" -type f -name '*.php' -exec php -l '{}' \; 2>&1 |grep -v '^No syntax errors detected'
-            done
-          fi
+          ! find . -type f -path "./files*/*.php" -print0 \
+            | xargs -0 -n1 -P "$(nproc)" php -l 2>&1 \
+            | grep -v '^No syntax errors detected'
 
       - name: Add PHP Syntax Matcher
         run: |
@@ -289,13 +285,9 @@ jobs:
 
       - name: PHP Syntax Check
         run: |
-          files_dirs=$(find . -type d -name 'files*')
-          if [ -n "$files_dirs" ]; then
-            for dir in $files_dirs; do
-              echo "Checking PHP files in directory: $dir"
-              ! find "$dir" -type f -name '*.php' -exec php -l '{}' \; 2>&1 |grep -v '^No syntax errors detected'
-            done
-          fi
+          ! find . -type f -path "./files*/*.php" -print0 \
+            | xargs -0 -n1 -P "$(nproc)" php -l 2>&1 \
+            | grep -v '^No syntax errors detected'
 
       - name: Add PHP Syntax Matcher
         run: |
