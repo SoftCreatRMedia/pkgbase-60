@@ -6,7 +6,6 @@ $finder = PhpCsFixer\Finder::create()
     ->notPath('node_modules');
 
 return (new PhpCsFixer\Config())
-    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR1' => true,
