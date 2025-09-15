@@ -18,7 +18,7 @@ jobs:
       check_php: ${{ steps.php_check.outputs.check_php }}
       check_js: ${{ steps.js_check.outputs.check_js }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Get Commit Message
         id: get_commit_message
@@ -27,7 +27,7 @@ jobs:
 
       - name: Identify Changed Files
         id: changed_files
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@v47
         with:
           files: |
             **/*.ts
@@ -121,7 +121,7 @@ jobs:
       check_php: ${{ steps.php_check.outputs.check_php }}
       check_js: ${{ steps.js_check.outputs.check_js }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Get Commit Message
         id: get_commit_message
@@ -130,7 +130,7 @@ jobs:
 
       - name: Identify Changed Files
         id: changed_files
-        uses: tj-actions/changed-files@v45
+        uses: tj-actions/changed-files@v47
         with:
           files: |
             **/*.ts
@@ -228,7 +228,7 @@ jobs:
       max-parallel: 1
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
         with:
@@ -267,7 +267,7 @@ jobs:
       max-parallel: 1
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
         with:
@@ -301,9 +301,9 @@ jobs:
       needs.init-public.outputs.check_ts == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
           cache: "npm"
@@ -340,9 +340,9 @@ jobs:
       needs.init-private.outputs.check_ts == 'true'
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
           cache: "npm"
@@ -379,9 +379,9 @@ jobs:
       needs.init-public.outputs.check_js == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
           cache: "npm"
@@ -418,9 +418,9 @@ jobs:
       needs.init-private.outputs.check_js == 'true'
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
           cache: "npm"
@@ -457,7 +457,7 @@ jobs:
       needs.init-public.outputs.check_scss == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Check for package.json
         id: check_files
@@ -466,7 +466,7 @@ jobs:
           files: "package.json"
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
           cache: "npm"
@@ -495,7 +495,7 @@ jobs:
       needs.init-private.outputs.check_scss == 'true'
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Check for package.json
         id: check_files
@@ -504,7 +504,7 @@ jobs:
           files: "package.json"
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
           cache: "npm"
@@ -533,10 +533,10 @@ jobs:
       (needs.init-public.outputs.check_js == 'true' || needs.init-public.outputs.check_ts == 'true')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
           cache: "npm"
@@ -571,10 +571,10 @@ jobs:
       (needs.init-private.outputs.check_js == 'true' || needs.init-private.outputs.check_ts == 'true')
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "20"
           cache: "npm"
@@ -625,7 +625,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -700,7 +700,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
