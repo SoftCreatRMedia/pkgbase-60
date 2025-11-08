@@ -17,13 +17,20 @@ jobs:
       check_scss: ${{ steps.scss_check.outputs.check_scss }}
       check_php: ${{ steps.php_check.outputs.check_php }}
       check_js: ${{ steps.js_check.outputs.check_js }}
+
+
     steps:
       - uses: actions/checkout@v5
 
       - name: Get Commit Message
         id: get_commit_message
         run: |
-          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
+          msg="$(git log -1 --pretty=%B)"
+          {
+            echo 'commit_message<<EOF'
+            echo "$msg"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Identify Changed Files
         id: changed_files
@@ -38,10 +45,11 @@ jobs:
       - name: Set Release Flag
         id: set_release
         run: |
-          if [[ "${{ steps.get_commit_message.outputs.commit_message }}" == \[Release\]* ]]; then
-            echo "is_release=true" >> $GITHUB_OUTPUT
+          cm="${{ steps.get_commit_message.outputs.commit_message }}"
+          if [[ "$cm" =~ ^\[Release\][[:space:]]+[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            echo "is_release=true" >> "$GITHUB_OUTPUT"
           else
-            echo "is_release=false" >> $GITHUB_OUTPUT
+            echo "is_release=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Check for TypeScript Changes
@@ -110,7 +118,74 @@ jobs:
             else
               echo "check_js=false" >> $GITHUB_OUTPUT
             fi
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
           fi
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   init-private:
     if: github.event.repository.visibility != 'public'
@@ -120,13 +195,20 @@ jobs:
       check_scss: ${{ steps.scss_check.outputs.check_scss }}
       check_php: ${{ steps.php_check.outputs.check_php }}
       check_js: ${{ steps.js_check.outputs.check_js }}
+
+
     steps:
       - uses: actions/checkout@v5
 
       - name: Get Commit Message
         id: get_commit_message
         run: |
-          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
+          msg="$(git log -1 --pretty=%B)"
+          {
+            echo 'commit_message<<EOF'
+            echo "$msg"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Identify Changed Files
         id: changed_files
@@ -141,10 +223,11 @@ jobs:
       - name: Set Release Flag
         id: set_release
         run: |
-          if [[ "${{ steps.get_commit_message.outputs.commit_message }}" == \[Release\]* ]]; then
-            echo "is_release=true" >> $GITHUB_OUTPUT
+          cm="${{ steps.get_commit_message.outputs.commit_message }}"
+          if [[ "$cm" =~ ^\[Release\][[:space:]]+[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            echo "is_release=true" >> "$GITHUB_OUTPUT"
           else
-            echo "is_release=false" >> $GITHUB_OUTPUT
+            echo "is_release=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Check for TypeScript Changes
@@ -213,7 +296,74 @@ jobs:
             else
               echo "check_js=false" >> $GITHUB_OUTPUT
             fi
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
           fi
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   php-public:
     name: PHP Code Style, Fixes, and Syntax Check (Public)
@@ -317,7 +467,7 @@ jobs:
           npx tsc --noEmit
 
       - name: ESLint
-        run: | 
+        run: |
           npx eslint .
 
       - name: Prettier Format Check
@@ -356,7 +506,7 @@ jobs:
           npx tsc --noEmit
 
       - name: ESLint
-        run: | 
+        run: |
           npx eslint .
 
       - name: Prettier Format Check
@@ -615,9 +765,7 @@ jobs:
           !contains(needs.typescript-public.result, 'failure') &&
           !contains(needs.javascript-public.result, 'failure') &&
           !contains(needs.scss-public.result, 'failure') &&
-          !contains(needs.javascript_sync-public.result, 'failure') &&
-          needs.init-public.outputs.language_check == 'true' &&
-          needs.init-public.outputs.packagexml_check == 'true'
+          !contains(needs.javascript_sync-public.result, 'failure')
         )
       )
     runs-on: ubuntu-latest
@@ -690,9 +838,7 @@ jobs:
           !contains(needs.typescript-private.result, 'failure') &&
           !contains(needs.javascript-private.result, 'failure') &&
           !contains(needs.scss-private.result, 'failure') &&
-          !contains(needs.javascript_sync-private.result, 'failure') &&
-          needs.init-private.outputs.language_check == 'true' &&
-          needs.init-private.outputs.packagexml_check == 'true'
+          !contains(needs.javascript_sync-private.result, 'failure')
         )
       )
     runs-on: self-hosted
