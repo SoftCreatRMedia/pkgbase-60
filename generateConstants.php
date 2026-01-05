@@ -17,7 +17,7 @@ try {
 $namespaces = $xml->getNamespaces(true);
 $xml->registerXPathNamespace('ns', $namespaces['']);
 
-$constants = ["const WCF_N = 1;"];
+$constants = ["const TIME_NOW = 0;"];
 
 foreach ($xml->xpath('//ns:import/ns:options/ns:option') as $option) {
     $name = \strtoupper(\str_replace(['.', ':'], '_', (string)$option['name']));
