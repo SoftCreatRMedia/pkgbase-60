@@ -17,8 +17,8 @@ jobs:
       check_scss: ${{ steps.scss_check.outputs.check_scss }}
       check_php: ${{ steps.php_check.outputs.check_php }}
       check_js: ${{ steps.js_check.outputs.check_js }}
-
-
+      language_check: ${{ steps.language_check.outputs.language_check }}
+      packagexml_check: ${{ steps.packagexml_check.outputs.packagexml_check }}
     steps:
       - uses: actions/checkout@v5
 
@@ -118,85 +118,18 @@ jobs:
             else
               echo "check_js=false" >> $GITHUB_OUTPUT
             fi
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
           fi
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
   init-private:
     if: github.event.repository.visibility != 'public'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       check_ts: ${{ steps.ts_check.outputs.check_ts }}
       check_scss: ${{ steps.scss_check.outputs.check_scss }}
       check_php: ${{ steps.php_check.outputs.check_php }}
       check_js: ${{ steps.js_check.outputs.check_js }}
-
-
+      language_check: ${{ steps.language_check.outputs.language_check }}
+      packagexml_check: ${{ steps.packagexml_check.outputs.packagexml_check }}
     steps:
       - uses: actions/checkout@v5
 
@@ -296,74 +229,7 @@ jobs:
             else
               echo "check_js=false" >> $GITHUB_OUTPUT
             fi
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
           fi
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
   php-public:
     name: PHP Code Style, Fixes, and Syntax Check (Public)
@@ -383,7 +249,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: ctype, dom, exif, gd, gmp, hash, intl, json, libxml, mbstring, opcache, pcre, pdo, pdo_mysql, zlib
+          extensions: ctype, dom, exif, gd, gmp, hash, intl, json, libxml, mbstring, opcache, pcre, pdo, pdo_mysql, zlib, xml, phar
           tools: cs2pr, phpcs, php-cs-fixer
 
       - name: PHP Code Style Check (phpcs)
@@ -392,7 +258,7 @@ jobs:
 
       - name: PHP Code Fix Check (php-cs-fixer)
         run: |
-          php-cs-fixer fix --dry-run --diff
+          PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --diff
 
       - name: PHP Syntax Check
         run: |
@@ -410,7 +276,7 @@ jobs:
     if: >
       github.event.repository.visibility != 'public' &&
       needs.init-private.outputs.check_php == 'true'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         php-version: [8.1, 8.2, 8.3]
@@ -422,7 +288,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: ctype, dom, exif, gd, gmp, hash, intl, json, libxml, mbstring, opcache, pcre, pdo, pdo_mysql, zlib
+          extensions: ctype, dom, exif, gd, gmp, hash, intl, json, libxml, mbstring, opcache, pcre, pdo, pdo_mysql, zlib, xml, phar
           tools: cs2pr, phpcs, php-cs-fixer
 
       - name: PHP Code Style Check (phpcs)
@@ -431,7 +297,7 @@ jobs:
 
       - name: PHP Code Fix Check (php-cs-fixer)
         run: |
-          php-cs-fixer fix --dry-run --diff
+          PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix --dry-run --diff
 
       - name: PHP Syntax Check
         run: |
@@ -467,7 +333,7 @@ jobs:
           npx tsc --noEmit
 
       - name: ESLint
-        run: |
+        run: | 
           npx eslint .
 
       - name: Prettier Format Check
@@ -488,7 +354,7 @@ jobs:
     if: >
       github.event.repository.visibility != 'public' &&
       needs.init-private.outputs.check_ts == 'true'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - name: Set up Node.js
@@ -506,7 +372,7 @@ jobs:
           npx tsc --noEmit
 
       - name: ESLint
-        run: |
+        run: | 
           npx eslint .
 
       - name: Prettier Format Check
@@ -566,7 +432,7 @@ jobs:
     if: >
       github.event.repository.visibility != 'public' &&
       needs.init-private.outputs.check_js == 'true'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - name: Set up Node.js
@@ -608,7 +474,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-
       - name: Check for package.json
         id: check_files
         uses: andstor/file-existence-action@v3
@@ -643,10 +508,9 @@ jobs:
     if: >
       github.event.repository.visibility != 'public' &&
       needs.init-private.outputs.check_scss == 'true'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-
       - name: Check for package.json
         id: check_files
         uses: andstor/file-existence-action@v3
@@ -684,7 +548,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
@@ -719,10 +582,9 @@ jobs:
     if: >
       github.event.repository.visibility != 'public' &&
       (needs.init-private.outputs.check_js == 'true' || needs.init-private.outputs.check_ts == 'true')
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
@@ -765,7 +627,9 @@ jobs:
           !contains(needs.typescript-public.result, 'failure') &&
           !contains(needs.javascript-public.result, 'failure') &&
           !contains(needs.scss-public.result, 'failure') &&
-          !contains(needs.javascript_sync-public.result, 'failure')
+          !contains(needs.javascript_sync-public.result, 'failure') &&
+          needs.init-public.outputs.language_check == 'true' &&
+          needs.init-public.outputs.packagexml_check == 'true'
         )
       )
     runs-on: ubuntu-latest
@@ -838,10 +702,12 @@ jobs:
           !contains(needs.typescript-private.result, 'failure') &&
           !contains(needs.javascript-private.result, 'failure') &&
           !contains(needs.scss-private.result, 'failure') &&
-          !contains(needs.javascript_sync-private.result, 'failure')
+          !contains(needs.javascript_sync-private.result, 'failure') &&
+          needs.init-private.outputs.language_check == 'true' &&
+          needs.init-private.outputs.packagexml_check == 'true'
         )
       )
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
