@@ -27,7 +27,7 @@ jobs:
       - name: Create package
         run: |
           rm -rf *.tar.gz
-          npx --yes wspackager@latest
+          npx --yes @softcreatr/wspackager@latest
 
       - name: Check file existence
         id: check_files
@@ -73,7 +73,7 @@ jobs:
       - name: Create package
         run: |
           rm -rf *.tar.gz
-          npx --yes wspackager@latest
+          npx --yes @softcreatr/wspackager@latest
 
       - name: Check file existence
         id: check_files
